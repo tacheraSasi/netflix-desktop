@@ -48,8 +48,16 @@
       "category": "Utility",
       "maintainer": "ekilie <support@ekilie.com>"
     },
-    "extraMetadata": {
-      "homepage": "https://magreth.ekilie.com"
+    "build": {
+      "appId": "com.instagram.desktop",
+      "productName": "Instagram Desktop",
+      "mac": {
+        "icon": "build/icon.icns",
+        "category": "public.app-category.utilities"
+      }
     }
+  },
+  "extraMetadata": {
+    "homepage": "https://magreth.ekilie.com"
   }
 }

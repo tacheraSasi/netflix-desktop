@@ -6,7 +6,7 @@ let mainWindow;
 const URL = 'https://instagram.com/'; 
 const OFFLINE_URL = 'offline.html';
 
-app.setName('Instagram');
+app.setName('Instagram desktop');
 app.setVersion('1.0.0');
 
 // Function to create the main window
