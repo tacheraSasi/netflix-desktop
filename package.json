@@ -1,5 +1,6 @@
 {
-  "name": "magreth",
+  "name": "instagram-desktop",
+  "productName": "Instagram Desktop",
   "version": "1.0.0",
   "description": "A desktop application for magreth with notifications and offline support.",
   "main": "main.js",
