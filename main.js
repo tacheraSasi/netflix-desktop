@@ -3,6 +3,8 @@ const path = require('path');
 
 let tray = null;
 let mainWindow;
+const URL = 'https://instagram.com/'; 
+const OFFLINE_URL = 'offline.html';
 
 // Function to create the main window
 async function createWindow() {
@@ -24,9 +26,9 @@ async function createWindow() {
   // Checking internet connectivity and load appropriate page
   const online = await isOnline();
   if (online) {
-    mainWindow.loadURL('https://magreth.ekilie.com/');  
+    mainWindow.loadURL(URL);  
   } else {
-    mainWindow.loadFile('offline.html');  
+    mainWindow.loadFile(OFFLINE_URL);  
   }
 }
 
