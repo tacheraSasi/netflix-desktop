@@ -1,15 +1,13 @@
-const { app, BrowserWindow, Tray, Menu, Notification } = require('electron');
+const { app, BrowserWindow, Tray, Menu, Notification, nativeImage } = require('electron');
 const path = require('path');
 
 let tray = null;
 let mainWindow;
-const URL = 'https://instagram.com/'; 
+const URL = 'https://instagram.com/';
 const OFFLINE_URL = 'offline.html';
 
-app.setName('Instagram desktop');
+app.setName('Instagram Desktop');
 app.setVersion('1.0.0');
-
-app.setName('Instagram Desktop')
 
 app.setAboutPanelOptions({
   applicationName: 'Instagram Desktop',
@@ -17,48 +15,65 @@ app.setAboutPanelOptions({
   copyright: '© 2025 Tachera Sasi',
   credits: 'This is an unofficial wrapper around Instagram.\nMade with ❤️ using Electron by Tachera Sasi.',
   website: URL
-})
+});
 
-
-// Function to create the main window
+// Create the main browser window
 async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 992,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      sandbox: false, // Disabling sandboxing
+      sandbox: false
     },
-    icon: path.join(__dirname, 'assets/images/magreth.png'),  
-    frame: true , // Using system window frame for native window controls
-    menu:null,
+    icon: path.join(__dirname, 'assets/images/magreth.png'),
+    frame: true,
+    autoHideMenuBar: true,
+    show: false  // Show later after ready
   });
 
-  // Dynamically importing `is-online` module
-  const isOnline = (await import('is-online')).default;
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
-  // Checking internet connectivity and load appropriate page
+  const isOnline = (await import('is-online')).default;
   const online = await isOnline();
+
   if (online) {
-    mainWindow.loadURL(URL);  
+    mainWindow.loadURL(URL);
   } else {
-    mainWindow.loadFile(OFFLINE_URL);  
+    mainWindow.loadFile(OFFLINE_URL);
   }
 }
 
-
-// Create tray icon for system tray integration
+// Create the tray icon and menu
 function createTray() {
-  tray = new Tray(path.join(__dirname, 'build/icon.png'));  
+  // Load and resize tray icon properly
+  const trayIcon = nativeImage.createFromPath(
+    path.join(__dirname, 'build/icon.png')
+  ).resize({ width: 16, height: 16 });
+
+  tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Show App', click: () => { mainWindow.show(); } },
-    { label: 'Quit', click: () => { app.quit(); } }
+    { label: 'Show App', click: () => mainWindow.show() },
+    { label: 'Quit', click: () => app.quit() }
   ]);
-  tray.setToolTip('ig');
+
+  tray.setToolTip('Instagram Desktop');
   tray.setContextMenu(contextMenu);
 }
 
-// App initialization
+// Schedule a placeholder notification (can be removed/edited later)
+function scheduleMorningNotification() {
+  if (Notification.isSupported()) {
+    new Notification({
+      title: 'IG App',
+      body: 'Instagram Desktop is running in the background.'
+    }).show();
+  }
+}
+
+// Electron lifecycle
 app.whenReady().then(() => {
   createWindow();
   createTray();
@@ -71,9 +86,6 @@ app.whenReady().then(() => {
   });
 });
 
-// Quit app when all windows are closed (except on macOS)
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
