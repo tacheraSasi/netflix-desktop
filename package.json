@@ -7,7 +7,10 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
-    "build-win": "electron-builder --win"
+    "build-win": "electron-builder --win",
+    "build-linux": "electron-builder --linux",
+    "build-mac": "electron-builder --mac",
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
   "author": "Tachera Sasi <tacherasasi@gmail.com>",
