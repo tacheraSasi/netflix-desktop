@@ -9,6 +9,17 @@ const OFFLINE_URL = 'offline.html';
 app.setName('Instagram desktop');
 app.setVersion('1.0.0');
 
+app.setName('Instagram Desktop')
+
+app.setAboutPanelOptions({
+  applicationName: 'Instagram Desktop',
+  applicationVersion: '1.0.0',
+  copyright: '© 2025 Tachera Sasi',
+  credits: 'This is an unofficial wrapper around Instagram.\nMade with ❤️ using Electron by Tachera Sasi.',
+  website: URL
+})
+
+
 // Function to create the main window
 async function createWindow() {
   mainWindow = new BrowserWindow({
