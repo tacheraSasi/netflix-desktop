@@ -54,7 +54,7 @@ function createTray() {
     { label: 'Show App', click: () => { mainWindow.show(); } },
     { label: 'Quit', click: () => { app.quit(); } }
   ]);
-  tray.setToolTip('magreth');
+  tray.setToolTip('ig');
   tray.setContextMenu(contextMenu);
 }
 
