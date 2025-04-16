@@ -32,31 +32,6 @@ async function createWindow() {
   }
 }
 
-// Schedule notification
-function scheduleMorningNotification() {
-  const now = new Date();
-  const morningTime = new Date();
-  morningTime.setHours(8, 0, 0, 0);  // Schedule for 8:00 AM
-
-  // Calculate time until 8 AM tomorrow if it's already past 8 AM today
-  if (now > morningTime) {
-    morningTime.setDate(morningTime.getDate() + 1);
-  }
-
-  const timeUntilMorning = morningTime - now;
-  // console(timeUntilMorning)
-
-  // Schedule notification after the calculated time
-  setTimeout(() => {
-    new Notification({
-      title: 'Good Morning!',
-      body: 'Start your day with magreth.'
-    }).show();
-
-    // Schedule again for tomorrow
-    scheduleMorningNotification();
-  }, timeUntilMorning);
-}
 
 // Create tray icon for system tray integration
 function createTray() {
