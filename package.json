@@ -2,7 +2,7 @@
   "name": "instagram-desktop",
   "productName": "Instagram Desktop",
   "version": "1.0.0",
-  "description": "A desktop application for magreth with notifications and offline support.",
+  "description": "A desktop application for Instagram with notifications and offline support.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -23,14 +23,18 @@
     "is-online": "^11.0.0"
   },
   "build": {
-    "appId": "com.ekilie.magreth",
-    "productName": "magreth",
+    "appId": "com.instagram.desktop",
+    "productName": "Instagram Desktop",
     "files": [
       "main.js",
       "preload.js",
       "assets/**/*",
       "offline.html"
     ],
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.utilities"
+    },
     "win": {
       "target": [
         "nsis",
@@ -47,14 +51,6 @@
       "icon": "assets/images/magreth.png",
       "category": "Utility",
       "maintainer": "ekilie <support@ekilie.com>"
-    },
-    "build": {
-      "appId": "com.instagram.desktop",
-      "productName": "Instagram Desktop",
-      "mac": {
-        "icon": "build/icon.icns",
-        "category": "public.app-category.utilities"
-      }
     }
   },
   "extraMetadata": {
