@@ -49,7 +49,7 @@ async function createWindow() {
 
 // Create tray icon for system tray integration
 function createTray() {
-  tray = new Tray(path.join(__dirname, 'assets/images/magreth.png'));  
+  tray = new Tray(path.join(__dirname, 'build/icon.png'));  
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => { mainWindow.show(); } },
     { label: 'Quit', click: () => { app.quit(); } }
