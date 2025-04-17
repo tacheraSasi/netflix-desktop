@@ -48,7 +48,6 @@ async function createWindow() {
 
 // Create the tray icon and menu
 function createTray() {
-  // Load and resize tray icon properly
   const trayIcon = nativeImage.createFromPath(
     path.join(__dirname, 'build/icon.png')
   ).resize({ width: 16, height: 16 });
