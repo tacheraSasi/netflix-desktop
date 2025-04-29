@@ -5,6 +5,7 @@ let tray = null;
 let mainWindow;
 const URL = 'https://chat.google.com/';
 const OFFLINE_URL = 'offline.html';
+const GITHUB_URL = 'https://github.com/tacheraSasi/googleChat-desktop.git'
 
 app.setName('Instagram Desktop');
 app.setVersion('1.0.0');
@@ -26,7 +27,7 @@ async function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       sandbox: false
     },
-    icon: path.join(__dirname, 'assets/images/magreth.png'),
+    icon: path.join(__dirname, 'build/icon.png'),
     frame: true,
     autoHideMenuBar: true,
     show: false  // Show later after ready
@@ -55,10 +56,11 @@ function createTray() {
   tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => mainWindow.show() },
+    {label:'Github',click:()=>{require('electron').shell.openExternal(GITHUB_URL)}},
     { label: 'Quit', click: () => app.quit() }
   ]);
 
-  tray.setToolTip('Instagram Desktop');
+  tray.setToolTip('Google Chat Desktop');
   tray.setContextMenu(contextMenu);
 }
 
@@ -66,8 +68,9 @@ function createTray() {
 function scheduleMorningNotification() {
   if (Notification.isSupported()) {
     new Notification({
-      title: 'IG App',
-      body: 'Instagram Desktop is running in the background.'
+      title: 'Google Chat App',
+      body: 'Welcome to Google Chat! Click to open the app.\n \nTachera Sasi',
+      icon: path.join(__dirname, 'build/icon.png'),
     }).show();
   }
 }
