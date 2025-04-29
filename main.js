@@ -3,21 +3,21 @@ const path = require('path');
 
 let tray = null;
 let mainWindow;
-const URL = 'https://instagram.com/';
+const URL = 'https://chat.google.com/';
 const OFFLINE_URL = 'offline.html';
 
 app.setName('Instagram Desktop');
 app.setVersion('1.0.0');
 
 app.setAboutPanelOptions({
-  applicationName: 'Instagram Desktop',
+  applicationName: 'Google Chat',
   applicationVersion: '1.0.0',
   copyright: '© 2025 Tachera Sasi',
-  credits: 'This is an unofficial wrapper around Instagram.\nMade with ❤️ using Electron by Tachera Sasi.',
+  credits: 'This is an unofficial wrapper around Google chat\nTachera Sasi Does not claim ownership of google chat.\nMade with ❤️ using Electron by Tachera Sasi.',
   website: URL
 });
 
-// Create the main browser window
+// Creates the main browser window
 async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 992,
@@ -46,7 +46,7 @@ async function createWindow() {
   }
 }
 
-// Create the tray icon and menu
+// Creates the tray icon and menu
 function createTray() {
   const trayIcon = nativeImage.createFromPath(
     path.join(__dirname, 'build/icon.png')
@@ -62,7 +62,7 @@ function createTray() {
   tray.setContextMenu(contextMenu);
 }
 
-// Schedule a placeholder notification (can be removed/edited later)
+// Schedules a placeholder notification (can be removed/edited later)
 function scheduleMorningNotification() {
   if (Notification.isSupported()) {
     new Notification({
@@ -72,7 +72,7 @@ function scheduleMorningNotification() {
   }
 }
 
-// Electron lifecycle
+// Electrons lifecycle
 app.whenReady().then(() => {
   createWindow();
   createTray();
