@@ -1,8 +1,8 @@
 {
-  "name": "instagram-desktop",
-  "productName": "Instagram Desktop",
+  "name": "google-chat",
+  "productName": "Google",
   "version": "1.0.0",
-  "description": "A desktop application for Instagram with notifications and offline support.",
+  "description": "A desktop application for Google Chat with notifications and offline support.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -24,8 +24,8 @@
     "is-online": "^11.0.0"
   },
   "build": {
-    "appId": "com.instagram.desktop",
-    "productName": "Instagram Desktop",
+    "appId": "com.google.chat",
+    "productName": "Google Chat",
     "files": [
       "main.js",
       "preload.js",
@@ -49,12 +49,12 @@
         "deb",
         "tar.gz"
       ],
-      "icon": "assets/images/magreth.png",
+      "icon": "build/icon.png",
       "category": "Utility",
       "maintainer": "ekilie <support@ekilie.com>"
     }
   },
   "extraMetadata": {
-    "homepage": "https://magreth.ekilie.com"
+    "homepage": "https://chat.google.com"
   }
 }
