@@ -31,7 +31,7 @@ async function createWindow() {
       contextIsolation: true,
       sandbox: false,
       nodeIntegration: false,
-    },    
+    },
     icon: path.join(__dirname, 'build/icon.png'),
     frame: true,
     autoHideMenuBar: true,
@@ -66,7 +66,7 @@ async function createWindow() {
     }
     callback(false);
   });
-  
+
 
   setInterval(() => {
     mainWindow.webContents.executeJavaScript(
