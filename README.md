@@ -1,4 +1,1 @@
-# magreth-desktop-electronjs
-# magreth-desktop-electronjs
-# magreth-electron
-# instagram-electron
+This is an unofficial wrapper around Google chat Tachera Sasi Does not claim ownership of google chat. Made with ❤️ using Electron by Tachera Sasi.
