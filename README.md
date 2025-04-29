@@ -1,1 +1,1 @@
-This is an unofficial wrapper around Google chat Tachera Sasi Does not claim ownership of google chat. Made with ❤️ using Electron by Tachera Sasi.
+## This is an unofficial wrapper around Google chat Tachera Sasi Does not claim ownership of google chat. Made with ❤️ using Electron by Tachera Sasi.
