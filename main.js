@@ -7,8 +7,9 @@ const URL = 'https://chat.google.com/';
 const OFFLINE_URL = 'offline.html';
 const GITHUB_URL = 'https://github.com/tacheraSasi/googleChat-desktop.git'
 
-app.setName('Instagram Desktop');
+app.setName('Google Chat');
 app.setVersion('1.0.0');
+
 
 app.setAboutPanelOptions({
   applicationName: 'Google Chat',
