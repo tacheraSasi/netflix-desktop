@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, Notification, nativeImage } = require('electron');
+const { app, BrowserWindow, Tray, Menu, Notification, nativeImage, nativeTheme } = require('electron');
 const path = require('path');
 
 let tray = null;
@@ -75,6 +75,24 @@ function scheduleMorningNotification() {
     }).show();
   }
 }
+
+const isDarkMode = nativeTheme.shouldUseDarkColors;
+
+Menu.setApplicationMenu(
+  Menu.buildFromTemplate([
+    {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Toggle Dark Mode',
+          click: () => {
+            nativeTheme.themeSource = isDarkMode ? 'light' : 'dark';
+          },
+        },
+      ],
+    },
+  ])
+);
 
 // Electrons lifecycle
 app.whenReady().then(() => {
