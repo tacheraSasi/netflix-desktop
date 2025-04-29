@@ -19,14 +19,19 @@ app.setAboutPanelOptions({
   website: URL
 });
 
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');//allows autoplay of notifications 
+
+
 async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 992,
     height: 600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      sandbox: false
-    },
+      contextIsolation: true,
+      sandbox: false,
+      nodeIntegration: false,
+    },    
     icon: path.join(__dirname, 'build/icon.png'),
     frame: true,
     autoHideMenuBar: true,
@@ -40,7 +45,7 @@ async function createWindow() {
     mainWindow.hide();
   });
 
-  mainWindow.webContents.setUserAgent("Mozilla/5.0 (Google Chat Desktop)");
+  // mainWindow.webContents.setUserAgent("Mozilla/5.0 (Google Chat Desktop)");
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
@@ -55,6 +60,13 @@ async function createWindow() {
   } else {
     mainWindow.loadFile(OFFLINE_URL);
   }
+  mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    if (permission === 'notifications') {
+      return callback(true); // allows notifications
+    }
+    callback(false);
+  });
+  
 
   setInterval(() => {
     mainWindow.webContents.executeJavaScript(
