@@ -2,14 +2,12 @@ const { app, BrowserWindow, Tray, Menu, Notification, nativeImage, nativeTheme, 
 const path = require('path');
 const isOnlineImport = import('is-online');
 
+let tray = null;
+let isQuitting = false;
+let mainWindow;
 const URL = 'https://netflix.com/';
 const OFFLINE_URL = 'offline.html';
 const GITHUB_URL = 'https://github.com/tacheraSasi/netflix-desktop.git';
-
-let mainWindow;
-let tray = null;
-let isQuitting = false;
-const BADGE_INTERVAL_MS = 5000;
 
 app.setName('Netflix');
 app.setVersion('1.0.0');
@@ -22,36 +20,41 @@ app.setAboutPanelOptions({
   website: URL
 });
 
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');//allows autoplay of notifications 
 
-app.on('before-quit', () => {
-  isQuitting = true;
-});
 
 async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 992,
     height: 600,
-    icon: path.join(__dirname, 'build/icon.png'),
-    frame: true,
-    autoHideMenuBar: true,
-    show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       sandbox: false,
       nodeIntegration: false,
     },
+    icon: path.join(__dirname, 'build/icon.png'),
+    frame: true,
+    autoHideMenuBar: true,
+    show: false
   });
 
   mainWindow.once('ready-to-show', () => mainWindow.show());
 
+  
+  app.on('before-quit', () => {
+    isQuitting = true;
+  });
+  
   mainWindow.on('close', (e) => {
     if (!isQuitting) {
       e.preventDefault();
       mainWindow.hide();
     }
   });
+
+
+  // mainWindow.webContents.setUserAgent("Mozilla/5.0 (Google Chat Desktop)");
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
@@ -61,25 +64,32 @@ async function createWindow() {
   const isOnline = (await isOnlineImport).default;
   const online = await isOnline();
 
-  online ? mainWindow.loadURL(URL) : mainWindow.loadFile(OFFLINE_URL);
-
+  if (online) {
+    mainWindow.loadURL(URL);
+  } else {
+    mainWindow.loadFile(OFFLINE_URL);
+  }
   mainWindow.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
-    callback(permission === 'notifications');
+    if (permission === 'notifications') {
+      return callback(true); // allows notifications
+    }
+    callback(false);
   });
 
+
   setInterval(() => {
-    mainWindow.webContents.executeJavaScript(`document.title.includes("•")`)
-      .then((hasUnread) => app.setBadgeCount(hasUnread ? 1 : 0));
-  }, BADGE_INTERVAL_MS);
+    mainWindow.webContents.executeJavaScript(
+      `document.title.includes("•")`
+    ).then((hasUnread) => {
+      app.setBadgeCount(hasUnread ? 1 : 0);
+    });
+  }, 5000);
 }
 
 function createTray() {
-  const iconPath = path.join(__dirname, 'build/icon.png');
-  const trayIcon = nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 });
+  const trayIcon = nativeImage.createFromPath(path.join(__dirname, 'build/icon.png')).resize({ width: 16, height: 16 });
 
   tray = new Tray(trayIcon);
-  tray.setToolTip('Netflix Desktop');
-
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => mainWindow.show() },
     { label: 'Toggle Dark Mode', click: toggleDarkMode },
@@ -87,31 +97,23 @@ function createTray() {
     { label: 'Quit', click: () => app.quit() }
   ]);
 
+  tray.setToolTip('Google Chat Desktop');
   tray.setContextMenu(contextMenu);
 }
 
 function toggleDarkMode() {
-  nativeTheme.themeSource = nativeTheme.shouldUseDarkColors ? 'light' : 'dark';
+  const newTheme = nativeTheme.shouldUseDarkColors ? 'light' : 'dark';
+  nativeTheme.themeSource = newTheme;
 }
 
 function scheduleMorningNotification() {
-  if (!Notification.isSupported()) return;
-
-  new Notification({
-    title: 'Netflix',
-    body: 'Welcome to Netflix! Click to open.\nTachera Sasi',
-    icon: path.join(__dirname, 'build/icon.png'),
-  }).show();
-}
-
-function registerShortcuts() {
-  globalShortcut.register('CommandOrControl+Shift+C', () => {
-    if (mainWindow?.isVisible()) {
-      mainWindow.hide();
-    } else {
-      mainWindow.show();
-    }
-  });
+  if (Notification.isSupported()) {
+    new Notification({
+      title: 'Netflix',
+      body: 'Welcome to Netflix! Click to open.\nTachera Sasi',
+      icon: path.join(__dirname, 'build/icon.png'),
+    }).show();
+  }
 }
 
 Menu.setApplicationMenu(Menu.buildFromTemplate([
@@ -135,7 +137,14 @@ app.whenReady().then(() => {
   createWindow();
   createTray();
   scheduleMorningNotification();
-  registerShortcuts();
+
+  globalShortcut.register('CommandOrControl+Shift+C', () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+    }
+  });
 
   app.setLoginItemSettings({ openAtLogin: true });
 
