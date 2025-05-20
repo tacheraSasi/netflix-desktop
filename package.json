@@ -1,8 +1,8 @@
 {
-  "name": "google-chat",
-  "productName": "Google",
+  "name": "netflix-desktop",
+  "productName": "Netflix",
   "version": "1.0.0",
-  "description": "A desktop application for Google Chat with notifications and offline support.",
+  "description": "A desktop application for Netflix with notifications.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -20,12 +20,13 @@
     "electron-builder": "^25.1.8"
   },
   "dependencies": {
+    "electron": "https://github.com/castlabs/electron-releases#v36.2.1+wvcus",
     "electron-store": "^10.0.1",
     "is-online": "^11.0.0"
   },
   "build": {
-    "appId": "com.google.chat",
-    "productName": "Google Chat",
+    "appId": "com.netflix.desktop",
+    "productName": "Netflix",
     "files": [
       "main.js",
       "preload.js",
@@ -51,10 +52,10 @@
       ],
       "icon": "build/icon.png",
       "category": "Utility",
-      "maintainer": "ekilie <support@ekilie.com>"
+      "maintainer": " <support@ekilie.com>"
     }
   },
   "extraMetadata": {
-    "homepage": "https://chat.google.com"
+    "homepage": "https://netflix.com"
   }
 }

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, Notification, nativeImage, nativeTheme, shell, globalShortcut } = require('electron');
+const { app, components, BrowserWindow, Tray, Menu, Notification, nativeImage, nativeTheme, shell, globalShortcut } = require('electron');
 const path = require('path');
 const isOnlineImport = import('is-online');
 
@@ -97,7 +97,7 @@ function createTray() {
     { label: 'Quit', click: () => app.quit() }
   ]);
 
-  tray.setToolTip('Google Chat Desktop');
+  tray.setToolTip('Netflix Desktop');
   tray.setContextMenu(contextMenu);
 }
 
@@ -133,7 +133,9 @@ Menu.setApplicationMenu(Menu.buildFromTemplate([
   }
 ]));
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
+  await components.whenReady();
+  console.log('components ready:', components.status());
   createWindow();
   createTray();
   scheduleMorningNotification();

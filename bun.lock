@@ -5,6 +5,7 @@
       "name": "magreth",
       "dependencies": {
         "electron-store": "^10.0.1",
+        "electron": "https://github.com/castlabs/electron-releases#v36.2.1+wvcus",
         "is-online": "^11.0.0",
       },
       "devDependencies": {
